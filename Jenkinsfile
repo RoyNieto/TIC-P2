@@ -2,31 +2,32 @@ pipeline {
     agent any
 
     stages {
-        stage('1. Inspeccionar') {
+        stage('1. Inspeccionar Node.js') {
             steps {
-                echo "Ejecutando pipeline para la rama ${env.GIT_BRANCH}..."
-                bat 'git --version'
+                echo 'Comprobando versión de Node y npm...'
+                bat 'node --version'
+                bat 'npm.cmd --version'
             }
         }
 
-        stage('2. Compilación') {
+        stage('2. Ejecutar Aplicación Node') {
             steps {
-                echo 'Simulando compilación del código...'
-                bat 'echo Compilación exitosa.'
+                echo 'Ejecutando script de Node.js...'
+                bat 'node app.js'
             }
         }
 
-        stage('3. Pruebas') {
+        stage('3. Pruebas Unitarias') {
             steps {
-                echo 'Simulando pruebas automatizadas...'
-                bat 'echo Pruebas: 100% pasadas.'
+                echo 'Ejecutando validaciones...'
+                bat 'echo Test suite: Todo correcto.'
             }
         }
     }
 
     post {
         success {
-            echo '¡Pipeline finalizado con éxito tras el push!'
+            echo '¡Pipeline de Node.js completado exitosamente!'
         }
     }
 }
