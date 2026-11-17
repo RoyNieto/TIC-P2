@@ -1,0 +1,29 @@
+name: Enviar mail en push
+  
+on:
+  push:
+    branches:
+      - main 
+      - feature_a
+      - feature_b
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Enviar mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+
+          subject: "Cambios subidos a rama ${{ github.ref_name }}"
+          to: iker.contla@iteso.mx, rodrigo.marin@iteso.mx
+          from: 'Rodrigo Umana <${{ secrets.MAIL_USERNAME}}>'
+          body: "body de rama ${{github.ref_name}}"
